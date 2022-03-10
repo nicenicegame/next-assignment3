@@ -71,7 +71,13 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
       sku: selectedSizeVariant?.sku,
       qty: quantity
     }
-    await client.post('/cart', cartItem)
+    const cartId = localStorage.getItem('cartId')
+    if (!cartId) {
+      const { data } = await client.post('/cart', cartItem)
+      localStorage.setItem('cartId', data.id)
+    } else {
+      await client.put(`/cart/${cartId}`, cartItem)
+    }
   }
 
   return (
@@ -88,7 +94,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             objectFit="cover"
             priority
           />
-          <BackButton onGoBack={() => router.back()} />
+          <BackButton onGoBack={() => router.push('/')} />
         </ProductImage>
         <ProductOptions>
           <TopProductOptions>
@@ -110,6 +116,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             <HorizontalLine margin="32px 0 24px" />
             <p className="muted-text">Color</p>
             <ColorSwatch
+              size="md"
               variants={availableColorVariants}
               selectedVariant={selectedColorVariant}
               onVariantChange={onSelectColorVariant}
@@ -134,7 +141,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
               onClick={onAddToCart}>
               Add To Cart
             </AddToCartButton>
-            <LikeButton />
+            <LikeButton size="md" />
           </BottomProductOptions>
         </ProductOptions>
       </ProductDetailCard>

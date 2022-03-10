@@ -1,17 +1,38 @@
 import { StyledLikeButton } from './style'
 import { useState } from 'react'
 
-const LikeButton = () => {
+const options = {
+  sm: 36,
+  md: 64
+}
+
+const iconOptions = {
+  sm: {
+    width: 15.2,
+    height: 13.6
+  },
+  md: {
+    width: 27,
+    height: 24.2
+  }
+}
+
+type LikeButtonProps = {
+  size: 'sm' | 'md'
+}
+
+const LikeButton = ({ size }: LikeButtonProps) => {
   const [toggleLike, setToggleLike] = useState<boolean>(false)
 
   return (
     <StyledLikeButton
       id="like-btn"
       isLike={toggleLike}
+      size={options[size]}
       onClick={() => setToggleLike(!toggleLike)}>
       <svg
-        width="28"
-        height="26"
+        width={iconOptions[size].width}
+        height={iconOptions[size].height}
         viewBox="0 0 28 26"
         fill="none"
         xmlns="http://www.w3.org/2000/svg">

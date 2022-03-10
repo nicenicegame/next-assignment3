@@ -3,6 +3,7 @@ import styled from 'styled-components'
 export const StyledProductCard = styled.div`
   cursor: pointer;
   width: 350px;
+  height: 350px;
   box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   display: flex;

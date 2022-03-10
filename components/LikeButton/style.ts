@@ -2,12 +2,13 @@ import styled, { css } from 'styled-components'
 
 type StyledLikeButtonProps = {
   isLike: boolean
+  size: number
 }
 
 export const StyledLikeButton = styled.div<StyledLikeButtonProps>`
   cursor: pointer;
-  min-width: 64px;
-  min-height: 64px;
+  min-width: ${(props) => props.size}px;
+  min-height: ${(props) => props.size}px;
   border-radius: 50%;
   display: flex;
   justify-content: center;

@@ -29,7 +29,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
   const navigateToDetail = (e: React.MouseEvent<HTMLDivElement>) => {
     const target = e.target as HTMLDivElement
 
-    if (target.classList.contains('color-circle') || target.id === 'like-btn')
+    if (target.classList.contains('color-variant') || target.id === 'like-btn')
       return
 
     router.push(`/product/${product.id}`)
@@ -53,6 +53,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         />
       </ProductCardImage>
       <ColorSwatch
+        size="sm"
         variants={availableColorVariants}
         selectedVariant={selectedColorVariant}
         onVariantChange={(variant) => setSelectedColorVariant(variant)}
@@ -67,7 +68,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
             2
           )}
         </p>
-        <LikeButton />
+        <LikeButton size="sm" />
       </ProductCardFooter>
     </StyledProductCard>
   )

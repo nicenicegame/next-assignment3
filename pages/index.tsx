@@ -31,18 +31,20 @@ const Home: NextPage<HomeProps> = ({ products }) => {
       <Head>
         <title>Adidas</title>
       </Head>
-      <Slider {...settings}>
-        {banners.map((banner, bannerIndex) => (
-          <Banner key={bannerIndex} id="banner">
-            <Image
-              src={banner.imageUrl}
-              layout="fill"
-              objectFit="cover"
-              alt="first banner"
-            />
-          </Banner>
-        ))}
-      </Slider>
+      <div id="banner">
+        <Slider {...settings}>
+          {banners.map((banner, bannerIndex) => (
+            <Banner key={bannerIndex} id="banner">
+              <Image
+                src={banner.imageUrl}
+                layout="fill"
+                objectFit="cover"
+                alt="first banner"
+              />
+            </Banner>
+          ))}
+        </Slider>
+      </div>
       <ProductContainer>
         {products.items.map((product) => (
           <ProductCard product={product} key={product.id} />
