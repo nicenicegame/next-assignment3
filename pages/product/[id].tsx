@@ -1,7 +1,7 @@
 import type { NextPage, GetStaticPropsContext, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
-import type { IProduct, IProducts, IVariant } from '../../types'
+import type { IProduct, IVariant } from '../../types'
 import {
   StyledProductDetail,
   ProductDetailCard,
