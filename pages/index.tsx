@@ -1,4 +1,4 @@
-import type { NextPage, GetStaticProps } from 'next'
+import type { NextPage, GetServerSideProps } from 'next'
 import type { IProducts } from '../types'
 import Image from 'next/image'
 import Slider from 'react-slick'
@@ -54,7 +54,7 @@ const Home: NextPage<HomeProps> = ({ products }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async () => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const { data: products } = await client.get<IProducts>('/products')
 
   return {

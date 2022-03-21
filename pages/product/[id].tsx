@@ -1,9 +1,4 @@
-import type {
-  NextPage,
-  GetStaticProps,
-  GetStaticPropsContext,
-  GetStaticPaths
-} from 'next'
+import type { NextPage, GetStaticPropsContext, GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
 import Image from 'next/image'
 import type { IProduct, IProducts, IVariant } from '../../types'
@@ -153,7 +148,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
   )
 }
 
-export const getStaticProps: GetStaticProps = async (
+export const getServerSideProps: GetServerSideProps = async (
   context: GetStaticPropsContext
 ) => {
   const { data: product } = await client.get<IProduct>(
@@ -164,18 +159,6 @@ export const getStaticProps: GetStaticProps = async (
     props: {
       product
     }
-  }
-}
-
-export const getStaticPaths: GetStaticPaths = async () => {
-  const { data: products } = await client.get<IProducts>('/products')
-  const paths = products.items.map((product: IProduct) => ({
-    params: { id: product.id }
-  }))
-
-  return {
-    paths,
-    fallback: false
   }
 }
 
