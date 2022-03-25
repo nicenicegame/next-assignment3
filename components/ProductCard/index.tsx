@@ -59,6 +59,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
         />
       </ProductCardImage>
       <ColorSwatch
+        selectedStyle="circle"
         size="sm"
         colors={colors}
         selectedColor={selectedColorVariant.color}

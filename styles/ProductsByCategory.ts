@@ -59,7 +59,12 @@ export const CardHeader = styled.div`
 `
 
 export const CardActions = styled.div`
+  display: flex;
+  gap: 20px;
+  align-items: center;
+
   span {
+    cursor: pointer;
     text-decoration: underline;
     font-size: 16px;
     color: #bebebe;
@@ -67,14 +72,20 @@ export const CardActions = styled.div`
 `
 
 export const ConfirmButton = styled.button`
+  cursor: pointer;
   display: block;
   padding: 12px;
   border: none;
-  background: #bebebe;
+  background: #2c2c2c;
   border-radius: 8px;
   color: white;
   font-size: 16px;
   font-weight: 700;
+
+  :disabled {
+    background-color: #bebebe;
+    cursor: not-allowed;
+  }
 `
 
 export const Content = styled.div`

@@ -5,18 +5,21 @@ type SizePickerProps = {
   selectedSize: string | undefined | string[]
   sizesStock?: number[]
   onSizeChange: (size: string) => void
+  selectedColor: 'blue' | 'black'
 }
 
 const SizePicker = ({
   sizes,
   selectedSize,
   sizesStock,
-  onSizeChange
+  onSizeChange,
+  selectedColor
 }: SizePickerProps) => {
   return (
     <StyledSizePicker id="size-container">
       {sizes.map((size, sizeIndex) => (
         <SizeButton
+          selectedColor={selectedColor}
           key={sizeIndex}
           selected={
             Array.isArray(selectedSize)

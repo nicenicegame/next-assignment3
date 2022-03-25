@@ -37,7 +37,7 @@ const ProductsByCategory: NextPage = () => {
     (state) => state.category.selectedColors
   )
   const selectedSizes = useAppSelector((state) => state.category.selectedSizes)
-  const [priceRange, setPriceRange] = useState<number[]>([])
+  const [priceRange, setPriceRange] = useState<number[]>([100, 1200])
 
   useEffect(() => {
     dispatch(fetchVariants())
@@ -61,6 +61,8 @@ const ProductsByCategory: NextPage = () => {
   const onClearOptions = () => {
     dispatch(clearAllSelectedOptions())
   }
+
+  const onConfirm = () => {}
 
   return (
     <StyledProductsByCategory className="container">
@@ -86,7 +88,20 @@ const ProductsByCategory: NextPage = () => {
             <h4>Filter & Sort</h4>
             <CardActions>
               <span onClick={onClearOptions}>Clear All</span>
-              <span onClick={onCloseSideDrawer}>X</span>
+              <span onClick={onCloseSideDrawer}>
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 18 18"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M17.1668 2.47837L15.5218 0.833374L9.00016 7.35504L2.4785 0.833374L0.833496 2.47837L7.35516 9.00004L0.833496 15.5217L2.4785 17.1667L9.00016 10.645L15.5218 17.1667L17.1668 15.5217L10.6452 9.00004L17.1668 2.47837Z"
+                    fill="black"
+                  />
+                </svg>
+              </span>
             </CardActions>
           </CardHeader>
           <p>Color</p>
@@ -95,12 +110,14 @@ const ProductsByCategory: NextPage = () => {
               colors={variants.colors}
               selectedColor={selectedColors}
               size="md"
+              selectedStyle="checked"
               onColorChange={onColorsChange}
             />
           )}
           <p>Size</p>
           {variants.sizes.length > 0 && (
             <SizePicker
+              selectedColor="black"
               sizes={variants.sizes}
               selectedSize={selectedSizes}
               onSizeChange={onSizesChange}
@@ -114,32 +131,15 @@ const ProductsByCategory: NextPage = () => {
             onRangeChange={onRangeChange}
           />
         </Content>
-        <ConfirmButton>Confirm</ConfirmButton>
+        <ConfirmButton
+          onClick={onConfirm}
+          disabled={selectedColors.length === 0 || selectedSizes.length === 0}
+        >
+          Confirm
+        </ConfirmButton>
       </SideDrawer>
     </StyledProductsByCategory>
   )
 }
-
-// export const getServerSideProps: GetServerSideProps = async (
-//   context: GetServerSidePropsContext
-// ) => {
-//   const { data: products } = await client.get<IProducts>(
-//     '/category/originals/products',
-//     {
-//       params: {
-//         'size[]': '8 US',
-//         'size[]': '5 US',
-//         'colors[]': '#FFFFFF',
-//         'colors[]': '#000000'
-//       }
-//     }
-//   )
-
-//   return {
-//     props: {
-//       products
-//     }
-//   }
-// }
 
 export default ProductsByCategory
