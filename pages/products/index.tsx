@@ -1,9 +1,4 @@
-import type {
-  GetServerSideProps,
-  GetServerSidePropsContext,
-  NextPage
-} from 'next'
-import client from '../../client'
+import type { NextPage } from 'next'
 import SideDrawer from '../../components/SideDrawer'
 import Paginator from '../../components/Paginator'
 import ProductCard from '../../components/ProductCard'
@@ -15,9 +10,9 @@ import {
   ProductsGrid,
   CardHeader,
   CardActions,
-  ConfirmButton
+  ConfirmButton,
+  Content
 } from '../../styles/ProductsByCategory'
-import { IProducts } from '../../types'
 import { useEffect, useState } from 'react'
 import RangeSlider from '../../components/RangeSlider'
 import {
@@ -28,7 +23,6 @@ import {
 } from '../../features/category/categorySlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ColorSwatch from '../../components/ColorSwatch'
-import { ColorVariant } from '../../components/ColorSwatch/style'
 import SizePicker from '../../components/SizePicker'
 
 const ProductsByCategory: NextPage = () => {
@@ -37,8 +31,8 @@ const ProductsByCategory: NextPage = () => {
   const products = useAppSelector(selectProducts)
   const variants = useAppSelector(selectVariants)
 
-  const [selectedColor, setSelectedColor] = useState<string>(variants.colors[0])
-  const [selectedSizes, setSelectedSizes] = useState<string>(variants.sizes[0])
+  const [selectedColors, setSelectedColors] = useState<string[]>([])
+  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
   const [priceRange, setPriceRange] = useState<number[]>([])
 
   useEffect(() => {
@@ -47,6 +41,22 @@ const ProductsByCategory: NextPage = () => {
   }, [dispatch])
 
   const onCloseSideDrawer = () => setIsOptionsOpen(false)
+
+  const onColorsChange = (color: string) => {
+    if (selectedColors.includes(color)) {
+      setSelectedColors(selectedColors.filter((c) => c !== color))
+    } else {
+      setSelectedColors([...selectedColors, color])
+    }
+  }
+
+  const onSizesChange = (size: string) => {
+    if (selectedSizes.includes(size)) {
+      setSelectedSizes(selectedSizes.filter((s) => s !== size))
+    } else {
+      setSelectedSizes([...selectedSizes, size])
+    }
+  }
 
   const onRangeChange = (min: number, max: number) => {
     setPriceRange([min, max])
@@ -71,7 +81,7 @@ const ProductsByCategory: NextPage = () => {
       </ProductsGrid>
       <Paginator />
       <SideDrawer isOpen={isOptionsOpen} onCloseSideDrawer={onCloseSideDrawer}>
-        <div className="flex-grow-1">
+        <Content>
           <CardHeader>
             <h4>Filter & Sort</h4>
             <CardActions>
@@ -83,9 +93,9 @@ const ProductsByCategory: NextPage = () => {
           {variants.colors.length > 0 && (
             <ColorSwatch
               colors={variants.colors}
-              selectedColor={selectedColor}
-              size="sm"
-              onColorChange={(color) => setSelectedColor(color)}
+              selectedColor={selectedColors}
+              size="md"
+              onColorChange={onColorsChange}
             />
           )}
           <p>Size</p>
@@ -93,7 +103,7 @@ const ProductsByCategory: NextPage = () => {
             <SizePicker
               sizes={variants.sizes}
               selectedSize={selectedSizes}
-              onSizeChange={(size) => setSelectedSizes(size)}
+              onSizeChange={onSizesChange}
             />
           )}
           <p>Price Range</p>
@@ -103,7 +113,7 @@ const ProductsByCategory: NextPage = () => {
             step={100}
             onRangeChange={onRangeChange}
           />
-        </div>
+        </Content>
         <ConfirmButton>Confirm</ConfirmButton>
       </SideDrawer>
     </StyledProductsByCategory>

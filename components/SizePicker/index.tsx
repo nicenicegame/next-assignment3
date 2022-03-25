@@ -2,7 +2,7 @@ import { StyledSizePicker, SizeButton } from './style'
 
 type SizePickerProps = {
   sizes: string[]
-  selectedSize: string | undefined
+  selectedSize: string | undefined | string[]
   sizesStock?: number[]
   onSizeChange: (size: string) => void
 }
@@ -18,7 +18,11 @@ const SizePicker = ({
       {sizes.map((size, sizeIndex) => (
         <SizeButton
           key={sizeIndex}
-          selected={selectedSize === size}
+          selected={
+            Array.isArray(selectedSize)
+              ? selectedSize.includes(size)
+              : selectedSize === size
+          }
           disabled={
             sizesStock != undefined ? sizesStock[sizeIndex] === 0 : false
           }

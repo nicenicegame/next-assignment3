@@ -76,3 +76,11 @@ export const ConfirmButton = styled.button`
   font-size: 16px;
   font-weight: 700;
 `
+
+export const Content = styled.div`
+  flex: 1;
+
+  p {
+    margin: 30px 0 16px;
+  }
+`

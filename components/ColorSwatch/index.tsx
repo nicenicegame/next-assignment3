@@ -2,7 +2,7 @@ import { StyledColorSwatch, ColorVariant } from './style'
 
 type ColorSwatchProps = {
   colors: string[]
-  selectedColor: string
+  selectedColor: string | string[]
   onColorChange: (color: string) => void
   size: 'sm' | 'md'
 }
@@ -23,7 +23,11 @@ const ColorSwatch = ({
       {colors.map((color, colorIndex) => (
         <ColorVariant
           key={colorIndex}
-          selected={color === selectedColor}
+          selected={
+            Array.isArray(selectedColor)
+              ? selectedColor.includes(color)
+              : selectedColor === color
+          }
           className="color-variant"
           color={color}
           size={options[size]}

@@ -171,7 +171,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const { data: product } = await client.get<IProduct>(
     `/products/${context.params?.id}`
   )
-  console.log(product)
+
   return {
     props: {
       product
