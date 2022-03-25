@@ -6,11 +6,15 @@ import { IProduct, IProducts, IVariants } from '../../types'
 interface ProductsCategory {
   products: IProduct[]
   variants: IVariants
+  selectedColors: string[]
+  selectedSizes: string[]
 }
 
 const initialState: ProductsCategory = {
   products: [],
-  variants: { colors: [], sizes: [], price: [] } as IVariants
+  variants: { colors: [], sizes: [], price: [] } as IVariants,
+  selectedColors: [],
+  selectedSizes: []
 }
 
 export const fetchProductsByCategory = createAsyncThunk(
@@ -32,7 +36,28 @@ export const fetchVariants = createAsyncThunk(
 export const categorySlice = createSlice({
   name: 'category',
   initialState,
-  reducers: {},
+  reducers: {
+    updateSelectedColors: (state, action: PayloadAction<string>) => {
+      const color = action.payload
+      if (state.selectedColors.includes(color)) {
+        state.selectedColors = state.selectedColors.filter((c) => c !== color)
+      } else {
+        state.selectedColors = [...state.selectedColors, color]
+      }
+    },
+    updateSelectedSizes: (state, action: PayloadAction<string>) => {
+      const size = action.payload
+      if (state.selectedSizes.includes(size)) {
+        state.selectedSizes = state.selectedSizes.filter((s) => s !== size)
+      } else {
+        state.selectedSizes = [...state.selectedSizes, size]
+      }
+    },
+    clearAllSelectedOptions: (state) => {
+      state.selectedColors = []
+      state.selectedSizes = []
+    }
+  },
   extraReducers: (builder) => {
     builder.addCase(
       fetchProductsByCategory.fulfilled,
@@ -48,6 +73,12 @@ export const categorySlice = createSlice({
       )
   }
 })
+
+export const {
+  updateSelectedColors,
+  updateSelectedSizes,
+  clearAllSelectedOptions
+} = categorySlice.actions
 
 export const selectProducts = (state: RootState) => state.category.products
 

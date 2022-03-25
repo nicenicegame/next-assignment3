@@ -16,10 +16,13 @@ import {
 import { useEffect, useState } from 'react'
 import RangeSlider from '../../components/RangeSlider'
 import {
+  clearAllSelectedOptions,
   fetchProductsByCategory,
   fetchVariants,
   selectProducts,
-  selectVariants
+  selectVariants,
+  updateSelectedColors,
+  updateSelectedSizes
 } from '../../features/category/categorySlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ColorSwatch from '../../components/ColorSwatch'
@@ -30,9 +33,10 @@ const ProductsByCategory: NextPage = () => {
   const dispatch = useAppDispatch()
   const products = useAppSelector(selectProducts)
   const variants = useAppSelector(selectVariants)
-
-  const [selectedColors, setSelectedColors] = useState<string[]>([])
-  const [selectedSizes, setSelectedSizes] = useState<string[]>([])
+  const selectedColors = useAppSelector(
+    (state) => state.category.selectedColors
+  )
+  const selectedSizes = useAppSelector((state) => state.category.selectedSizes)
   const [priceRange, setPriceRange] = useState<number[]>([])
 
   useEffect(() => {
@@ -43,23 +47,19 @@ const ProductsByCategory: NextPage = () => {
   const onCloseSideDrawer = () => setIsOptionsOpen(false)
 
   const onColorsChange = (color: string) => {
-    if (selectedColors.includes(color)) {
-      setSelectedColors(selectedColors.filter((c) => c !== color))
-    } else {
-      setSelectedColors([...selectedColors, color])
-    }
+    dispatch(updateSelectedColors(color))
   }
 
   const onSizesChange = (size: string) => {
-    if (selectedSizes.includes(size)) {
-      setSelectedSizes(selectedSizes.filter((s) => s !== size))
-    } else {
-      setSelectedSizes([...selectedSizes, size])
-    }
+    dispatch(updateSelectedSizes(size))
   }
 
   const onRangeChange = (min: number, max: number) => {
     setPriceRange([min, max])
+  }
+
+  const onClearOptions = () => {
+    dispatch(clearAllSelectedOptions())
   }
 
   return (
@@ -85,7 +85,7 @@ const ProductsByCategory: NextPage = () => {
           <CardHeader>
             <h4>Filter & Sort</h4>
             <CardActions>
-              <span>Clear All</span>
+              <span onClick={onClearOptions}>Clear All</span>
               <span onClick={onCloseSideDrawer}>X</span>
             </CardActions>
           </CardHeader>
