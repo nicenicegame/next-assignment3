@@ -32,6 +32,10 @@ export default createGlobalStyle`
             margin-right: auto;
         }
     }
+
+    .flex-grow-1 {
+        flex: 1;
+    }
 `
 
 type HorizontalLineProps = {
