@@ -37,8 +37,9 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
   const [selectedColorVariant, setSelectedColorVariant] = useState<IVariant>(
     availableColorVariants[0]
   )
-  const [selectedSizeVariant, setSelectedSizeVariant] =
-    useState<IVariant | null>(null)
+  const [selectedSizeVariant, setSelectedSizeVariant] = useState<
+    IVariant | undefined
+  >()
   const [quantity, setQuantity] = useState<number>(1)
 
   const sizesByColor = useMemo(
@@ -49,15 +50,29 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
     [selectedColorVariant, product.variants]
   )
 
-  const onSelectColorVariant = (variant: IVariant) => {
-    if (variant.color === selectedColorVariant.color) return
-    setSelectedColorVariant(variant)
-    setSelectedSizeVariant(null)
+  const colors = useMemo(
+    () => availableColorVariants.map((variant) => variant.color),
+    [availableColorVariants]
+  )
+  const sizes = useMemo(
+    () => sizesByColor.map((size) => size.size),
+    [sizesByColor]
+  )
+
+  const onSelectColorVariant = (color: string) => {
+    if (color === selectedColorVariant.color) return
+    setSelectedColorVariant(
+      availableColorVariants.find((variant) => variant.color === color) ||
+        availableColorVariants[0]
+    )
+    setSelectedSizeVariant(undefined)
   }
 
-  const onSelectSizeVariant = (varint: IVariant) => {
-    if (varint.size === selectedSizeVariant?.size) return
-    setSelectedSizeVariant(varint)
+  const onSelectSizeVariant = (size: string) => {
+    if (size === selectedSizeVariant?.size) return
+    setSelectedSizeVariant(
+      sizesByColor.find((variant) => variant.size === size)
+    )
     setQuantity(1)
   }
 
@@ -112,15 +127,16 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             <p className="muted-text">Color</p>
             <ColorSwatch
               size="md"
-              variants={availableColorVariants}
-              selectedVariant={selectedColorVariant}
-              onVariantChange={onSelectColorVariant}
+              colors={colors}
+              selectedColor={selectedColorVariant.color}
+              onColorChange={onSelectColorVariant}
             />
             <p className="muted-text product-size">Size</p>
             <SizePicker
-              variants={sizesByColor}
-              selectedVariant={selectedSizeVariant}
-              onVariantChange={onSelectSizeVariant}
+              sizes={sizes}
+              selectedSize={selectedSizeVariant?.size}
+              onSizeChange={onSelectSizeVariant}
+              sizesStock={sizesByColor.map((variant) => variant.stock)}
             />
             <HorizontalLine margin="3rem 0 0" />
           </TopProductOptions>
@@ -133,7 +149,8 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             <AddToCartButton
               id="add-to-cart"
               disabled={!selectedSizeVariant?.sku}
-              onClick={onAddToCart}>
+              onClick={onAddToCart}
+            >
               Add To Cart
             </AddToCartButton>
             <LikeButton size="md" />
@@ -154,7 +171,7 @@ export const getServerSideProps: GetServerSideProps = async (
   const { data: product } = await client.get<IProduct>(
     `/products/${context.params?.id}`
   )
-
+  console.log(product)
   return {
     props: {
       product

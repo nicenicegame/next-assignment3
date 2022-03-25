@@ -22,4 +22,5 @@ export const ColorVariant = styled.div<ColorVariantProps>`
 export const StyledColorSwatch = styled.div`
   display: flex;
   gap: 1rem;
+  flex-wrap: wrap;
 `

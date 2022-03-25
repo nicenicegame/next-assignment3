@@ -1,26 +1,30 @@
-import { IVariant } from '../../types'
 import { StyledSizePicker, SizeButton } from './style'
 
 type SizePickerProps = {
-  variants: IVariant[]
-  selectedVariant: IVariant | null
-  onVariantChange: (variant: IVariant) => void
+  sizes: string[]
+  selectedSize: string | undefined
+  sizesStock?: number[]
+  onSizeChange: (size: string) => void
 }
 
 const SizePicker = ({
-  variants,
-  selectedVariant,
-  onVariantChange
+  sizes,
+  selectedSize,
+  sizesStock,
+  onSizeChange
 }: SizePickerProps) => {
   return (
     <StyledSizePicker id="size-container">
-      {variants.map((variant) => (
+      {sizes.map((size, sizeIndex) => (
         <SizeButton
-          key={variant.size}
-          selected={selectedVariant?.size === variant.size}
-          disabled={variant.stock === 0}
-          onClick={() => onVariantChange(variant)}>
-          {variant.size}
+          key={sizeIndex}
+          selected={selectedSize === size}
+          disabled={
+            sizesStock != undefined ? sizesStock[sizeIndex] === 0 : false
+          }
+          onClick={() => onSizeChange(size)}
+        >
+          {size}
         </SizeButton>
       ))}
     </StyledSizePicker>

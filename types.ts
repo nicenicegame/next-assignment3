@@ -8,6 +8,12 @@ export interface IVariant {
   imageUrl: string
 }
 
+export interface IVariants {
+  colors: string[]
+  sizes: string[]
+  price: string[]
+}
+
 export interface IProduct {
   id: string
   brand: string

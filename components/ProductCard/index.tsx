@@ -21,6 +21,11 @@ const ProductCard = ({ product }: ProductCardProps) => {
     return _.uniqBy(product.variants, 'color')
   }, [product])
 
+  const colors = useMemo(
+    () => availableColorVariants.map((variant) => variant.color),
+    [availableColorVariants]
+  )
+
   const [selectedColorVariant, setSelectedColorVariant] = useState<IVariant>(
     availableColorVariants[0]
   )
@@ -38,7 +43,8 @@ const ProductCard = ({ product }: ProductCardProps) => {
   return (
     <StyledProductCard
       id={`product-card-${product.id}`}
-      onClick={navigateToDetail}>
+      onClick={navigateToDetail}
+    >
       <ProductCardHeader>
         <h4 className="product-name">{product.name}</h4>
         <p className="product-brand">{product.brand}</p>
@@ -54,9 +60,14 @@ const ProductCard = ({ product }: ProductCardProps) => {
       </ProductCardImage>
       <ColorSwatch
         size="sm"
-        variants={availableColorVariants}
-        selectedVariant={selectedColorVariant}
-        onVariantChange={(variant) => setSelectedColorVariant(variant)}
+        colors={colors}
+        selectedColor={selectedColorVariant.color}
+        onColorChange={(color) =>
+          setSelectedColorVariant(
+            availableColorVariants.find((variant) => variant.color === color) ||
+              availableColorVariants[0]
+          )
+        }
       />
       <ProductCardFooter>
         <p className="price">

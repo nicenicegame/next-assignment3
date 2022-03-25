@@ -1,10 +1,9 @@
-import { IVariant } from '../../types'
 import { StyledColorSwatch, ColorVariant } from './style'
 
 type ColorSwatchProps = {
-  variants: IVariant[]
-  selectedVariant: IVariant
-  onVariantChange: (variant: IVariant) => void
+  colors: string[]
+  selectedColor: string
+  onColorChange: (color: string) => void
   size: 'sm' | 'md'
 }
 
@@ -14,21 +13,21 @@ const options = {
 }
 
 const ColorSwatch = ({
-  variants,
-  selectedVariant,
-  onVariantChange,
+  colors,
+  selectedColor,
+  onColorChange,
   size
 }: ColorSwatchProps) => {
   return (
     <StyledColorSwatch id="swatch-container">
-      {variants.map((variant) => (
+      {colors.map((color, colorIndex) => (
         <ColorVariant
-          key={variant.sku}
-          selected={variant.color === selectedVariant.color}
+          key={colorIndex}
+          selected={color === selectedColor}
           className="color-variant"
-          color={variant.color}
+          color={color}
           size={options[size]}
-          onClick={() => onVariantChange(variant)}
+          onClick={() => onColorChange(color)}
         />
       ))}
     </StyledColorSwatch>
