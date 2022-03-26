@@ -38,6 +38,7 @@ const ProductsByCategory: NextPage = () => {
   )
   const selectedSizes = useAppSelector((state) => state.category.selectedSizes)
   const [priceRange, setPriceRange] = useState<number[]>([100, 1200])
+  const [currentPage, setCurrentPage] = useState<number>(1)
 
   useEffect(() => {
     dispatch(fetchVariants())
@@ -81,7 +82,11 @@ const ProductsByCategory: NextPage = () => {
             <ProductCard key={product.id} product={product} />
           ))}
       </ProductsGrid>
-      <Paginator />
+      <Paginator
+        maxPage={20}
+        currentPage={currentPage}
+        onPageChange={(page) => setCurrentPage(page)}
+      />
       <SideDrawer isOpen={isOptionsOpen} onCloseSideDrawer={onCloseSideDrawer}>
         <Content>
           <CardHeader>
