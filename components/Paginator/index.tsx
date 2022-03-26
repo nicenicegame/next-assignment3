@@ -1,11 +1,17 @@
-import {} from './style'
+import { StyledPaginator } from './style'
 
 type PaginatorProps = {
   onPagesChange: (page: number) => void
 }
 
 const Paginator = () => {
-  return <div>Paginator</div>
+  return (
+    <StyledPaginator>
+      <button>Previous</button>
+      <input type="text" />
+      <button>Next</button>
+    </StyledPaginator>
+  )
 }
 
 export default Paginator

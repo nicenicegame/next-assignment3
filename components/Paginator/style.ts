@@ -1,3 +1,5 @@
 import styled from 'styled-components'
 
-export const StyledPaginator = styled.div``
+export const StyledPaginator = styled.div`
+  display: flex;
+`
