@@ -16,11 +16,12 @@ import {
 import { useEffect, useState } from 'react'
 import RangeSlider from '../../components/RangeSlider'
 import {
-  clearAllSelectedOptions,
   fetchProductsByCategory,
   fetchVariants,
   selectProducts,
   selectVariants,
+  setSelectedColors,
+  setSelectedSizes,
   updateSelectedColors,
   updateSelectedSizes
 } from '../../features/category/categorySlice'
@@ -48,12 +49,12 @@ const ProductsByCategory: NextPage = () => {
   }, [dispatch])
 
   useEffect(() => {
-    const sizes = router.query['sizes'] || []
-    const colors = router.query['colors'] || []
+    const sizes = router.query.sizes || []
+    const colors = router.query.colors || []
     const params = { sizes, colors } as ICategoryFilter
     dispatch(fetchProductsByCategory(params))
-    dispatch(updateSelectedColors(colors))
-    dispatch(updateSelectedSizes(sizes))
+    dispatch(setSelectedColors(colors as string[]))
+    dispatch(setSelectedSizes(sizes as string[]))
   }, [dispatch, router.query])
 
   const onCloseSideDrawer = () => setIsOptionsOpen(false)
@@ -71,7 +72,14 @@ const ProductsByCategory: NextPage = () => {
   }
 
   const onClearOptions = () => {
-    dispatch(clearAllSelectedOptions())
+    router.push(
+      {
+        pathname: '/products'
+      },
+      undefined,
+      { shallow: true }
+    )
+    onCloseSideDrawer()
   }
 
   const onConfirm = () => {
@@ -86,7 +94,7 @@ const ProductsByCategory: NextPage = () => {
       undefined,
       { shallow: true }
     )
-    setIsOptionsOpen(false)
+    onCloseSideDrawer()
   }
 
   return (
@@ -116,9 +124,15 @@ const ProductsByCategory: NextPage = () => {
           <CardHeader>
             <h4>Filter & Sort</h4>
             <CardActions>
-              <span onClick={onClearOptions}>Clear All</span>
+              <button
+                disabled={!router.query.colors && !router.query.sizes}
+                onClick={onClearOptions}
+              >
+                Clear All
+              </button>
               <span onClick={onCloseSideDrawer}>
                 <svg
+                  onClick={onCloseSideDrawer}
                   width="18"
                   height="18"
                   viewBox="0 0 18 18"

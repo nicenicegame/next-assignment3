@@ -44,33 +44,27 @@ export const categorySlice = createSlice({
   name: 'category',
   initialState,
   reducers: {
-    updateSelectedColors: (state, action: PayloadAction<string | string[]>) => {
+    setSelectedColors: (state, action: PayloadAction<string[]>) => {
+      state.selectedColors = action.payload
+    },
+    setSelectedSizes: (state, action: PayloadAction<string[]>) => {
+      state.selectedSizes = action.payload
+    },
+    updateSelectedColors: (state, action: PayloadAction<string>) => {
       const color = action.payload
-      if (Array.isArray(color)) {
-        state.selectedColors = color
+      if (state.selectedColors.includes(color)) {
+        state.selectedColors = state.selectedColors.filter((c) => c !== color)
       } else {
-        if (state.selectedColors.includes(color)) {
-          state.selectedColors = state.selectedColors.filter((c) => c !== color)
-        } else {
-          state.selectedColors = [...state.selectedColors, color]
-        }
+        state.selectedColors = [...state.selectedColors, color]
       }
     },
-    updateSelectedSizes: (state, action: PayloadAction<string | string[]>) => {
+    updateSelectedSizes: (state, action: PayloadAction<string>) => {
       const size = action.payload
-      if (Array.isArray(size)) {
-        state.selectedSizes = size
+      if (state.selectedSizes.includes(size)) {
+        state.selectedSizes = state.selectedSizes.filter((s) => s !== size)
       } else {
-        if (state.selectedSizes.includes(size)) {
-          state.selectedSizes = state.selectedSizes.filter((s) => s !== size)
-        } else {
-          state.selectedSizes = [...state.selectedSizes, size]
-        }
+        state.selectedSizes = [...state.selectedSizes, size]
       }
-    },
-    clearAllSelectedOptions: (state) => {
-      state.selectedColors = []
-      state.selectedSizes = []
     }
   },
   extraReducers: (builder) => {
@@ -90,9 +84,10 @@ export const categorySlice = createSlice({
 })
 
 export const {
+  setSelectedColors,
+  setSelectedSizes,
   updateSelectedColors,
-  updateSelectedSizes,
-  clearAllSelectedOptions
+  updateSelectedSizes
 } = categorySlice.actions
 
 export const selectProducts = (state: RootState) => state.category.products

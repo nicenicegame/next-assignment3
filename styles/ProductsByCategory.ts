@@ -65,9 +65,19 @@ export const CardActions = styled.div`
 
   span {
     cursor: pointer;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    background-color: white;
     text-decoration: underline;
+    color: black;
     font-size: 16px;
-    color: #bebebe;
+
+    :disabled {
+      color: #bebebe;
+    }
   }
 `
 
