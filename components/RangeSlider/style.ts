@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components'
 
 type SliderBackgroundProps = {
-  label: number
+  label: string | number
   width: number
   position: 'left' | 'right'
 }
@@ -67,12 +67,14 @@ export const SliderBackground = styled.div<SliderBackgroundProps>`
 
   ::after {
     pointer-events: none;
-    content: '$ ${(props) => props.label}';
+    content: '${(props) => props.label}';
     width: max-content;
     position: absolute;
     bottom: -40px;
-    transform: translateX(calc(50% - ${(props) => (props.width * 15) / 100}px));
     right: 0;
+    transform: translateX(
+      calc(100% - ${(props) => (props.width * 30) / 100}px)
+    );
   }
 
   ${(props) =>

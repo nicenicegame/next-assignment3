@@ -16,7 +16,7 @@ export default createGlobalStyle`
         pointer-events: none;
     }
 
-    input, button {
+    input, button, select {
         font-family: inherit;
     }
 

@@ -9,7 +9,10 @@ type PaginatorProps = {
 const Paginator = ({ currentPage, maxPage, onPageChange }: PaginatorProps) => {
   return (
     <StyledPaginator>
-      <button disabled={currentPage <= 1}>
+      <button
+        disabled={currentPage <= 1}
+        onClick={() => onPageChange(currentPage - 1)}
+      >
         <svg
           width="8"
           height="12"
@@ -37,7 +40,10 @@ const Paginator = ({ currentPage, maxPage, onPageChange }: PaginatorProps) => {
         </select>
         <span>of {20}</span>
       </PageSelector>
-      <button disabled={currentPage >= maxPage}>
+      <button
+        disabled={currentPage >= maxPage}
+        onClick={() => onPageChange(currentPage + 1)}
+      >
         Next
         <svg
           width="8"

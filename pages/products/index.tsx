@@ -27,9 +27,10 @@ import {
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ColorSwatch from '../../components/ColorSwatch'
 import SizePicker from '../../components/SizePicker'
+import { useRouter } from 'next/router'
 
 const ProductsByCategory: NextPage = () => {
-  const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false)
+  const router = useRouter()
   const dispatch = useAppDispatch()
   const products = useAppSelector(selectProducts)
   const variants = useAppSelector(selectVariants)
@@ -37,6 +38,7 @@ const ProductsByCategory: NextPage = () => {
     (state) => state.category.selectedColors
   )
   const selectedSizes = useAppSelector((state) => state.category.selectedSizes)
+  const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false)
   const [priceRange, setPriceRange] = useState<number[]>([100, 1200])
   const [currentPage, setCurrentPage] = useState<number>(1)
 

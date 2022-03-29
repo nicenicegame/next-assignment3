@@ -59,12 +59,12 @@ const RangeSlider = ({ min, max, step, onRangeChange }: RangeSliderProps) => {
       <SliderBackground
         position="left"
         width={firstSliderBgWidth}
-        label={firstSliderValue}
+        label={`$ ${firstSliderValue}`}
       />
       <SliderBackground
         position="right"
         width={secondSliderBgWidth}
-        label={secondSliderValue}
+        label={`$ ${secondSliderValue}`}
       />
     </StyledRangeSlider>
   )
