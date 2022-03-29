@@ -28,6 +28,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import ColorSwatch from '../../components/ColorSwatch'
 import SizePicker from '../../components/SizePicker'
 import { useRouter } from 'next/router'
+import { ICategoryFilter } from '../../types'
 
 const ProductsByCategory: NextPage = () => {
   const router = useRouter()
@@ -44,8 +45,16 @@ const ProductsByCategory: NextPage = () => {
 
   useEffect(() => {
     dispatch(fetchVariants())
-    dispatch(fetchProductsByCategory())
   }, [dispatch])
+
+  useEffect(() => {
+    const sizes = router.query['sizes'] || []
+    const colors = router.query['colors'] || []
+    const params = { sizes, colors } as ICategoryFilter
+    dispatch(fetchProductsByCategory(params))
+    dispatch(updateSelectedColors(colors))
+    dispatch(updateSelectedSizes(sizes))
+  }, [dispatch, router.query])
 
   const onCloseSideDrawer = () => setIsOptionsOpen(false)
 
@@ -65,7 +74,20 @@ const ProductsByCategory: NextPage = () => {
     dispatch(clearAllSelectedOptions())
   }
 
-  const onConfirm = () => {}
+  const onConfirm = () => {
+    router.push(
+      {
+        pathname: '/products',
+        query: {
+          sizes: selectedSizes,
+          colors: selectedColors
+        }
+      },
+      undefined,
+      { shallow: true }
+    )
+    setIsOptionsOpen(false)
+  }
 
   return (
     <StyledProductsByCategory className="container">
@@ -140,7 +162,7 @@ const ProductsByCategory: NextPage = () => {
         </Content>
         <ConfirmButton
           onClick={onConfirm}
-          disabled={selectedColors.length === 0 || selectedSizes.length === 0}
+          disabled={selectedColors.length === 0 && selectedSizes.length === 0}
         >
           Confirm
         </ConfirmButton>

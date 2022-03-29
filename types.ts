@@ -27,3 +27,15 @@ export interface IProducts {
   items: IProduct[]
   count: number
 }
+
+export interface ICategoryFilter {
+  colors: string[]
+  sizes: string[]
+}
+
+export interface IProductsCategory {
+  products: IProduct[]
+  variants: IVariants
+  selectedColors: string[]
+  selectedSizes: string[]
+}
