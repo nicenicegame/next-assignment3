@@ -1,4 +1,5 @@
 import type { NextPage } from 'next'
+import Link from 'next/link'
 import SideDrawer from '../../components/SideDrawer'
 import Paginator from '../../components/Paginator'
 import ProductCard from '../../components/ProductCard'
@@ -40,6 +41,8 @@ const ProductsByCategory: NextPage = () => {
     (state) => state.category.selectedColors
   )
   const selectedSizes = useAppSelector((state) => state.category.selectedSizes)
+  const pageData = useAppSelector((state) => state.category.pageData)
+
   const [isOptionsOpen, setIsOptionsOpen] = useState<boolean>(false)
   const [priceRange, setPriceRange] = useState<number[]>([100, 1200])
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -101,8 +104,16 @@ const ProductsByCategory: NextPage = () => {
     <StyledProductsByCategory className="container">
       <BreadcrumbNav>
         <Nav>
-          <h4>Home</h4>
-          <h4 className="active">/ Adidas Original</h4>
+          <Link href="/">
+            <a>
+              <h4>Home</h4>
+            </a>
+          </Link>
+          <Link href="/products">
+            <a>
+              <h4 className="active">/ Adidas Original</h4>
+            </a>
+          </Link>
         </Nav>
         <OptionsButton onClick={() => setIsOptionsOpen(true)}>
           Filter & Sort
@@ -115,8 +126,8 @@ const ProductsByCategory: NextPage = () => {
           ))}
       </ProductsGrid>
       <Paginator
-        maxPage={20}
-        currentPage={currentPage}
+        maxPage={pageData.totalPage}
+        currentPage={pageData.currentPage}
         onPageChange={(page) => setCurrentPage(page)}
       />
       <SideDrawer isOpen={isOptionsOpen} onCloseSideDrawer={onCloseSideDrawer}>

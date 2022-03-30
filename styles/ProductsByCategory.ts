@@ -31,10 +31,10 @@ export const ProductsGrid = styled.div`
   width: 100%;
   margin-top: 2.25rem;
   margin-bottom: 1.5rem;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  row-gap: 30px;
+  display: grid;
+  justify-content: center;
+  grid-template-columns: repeat(auto-fit, 315px);
+  gap: 30px;
 `
 
 export const OptionsButton = styled.button`
@@ -76,6 +76,7 @@ export const CardActions = styled.div`
     font-size: 16px;
 
     :disabled {
+      cursor: unset;
       color: #bebebe;
     }
   }

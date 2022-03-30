@@ -1,9 +1,12 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const StyledProductCard = styled.div`
+type ProductCardProps = {
+  hasLikeButton: boolean
+}
+
+export const StyledProductCard = styled.div<ProductCardProps>`
   cursor: pointer;
-  width: 350px;
-  height: 350px;
+  width: ${(props) => (props.hasLikeButton ? 350 : 315)}px;
   box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.15);
   border-radius: 8px;
   display: flex;
@@ -31,14 +34,15 @@ export const ProductCardHeader = styled.div`
 export const ProductCardImage = styled.div`
   position: relative;
   width: 90%;
-  height: 180px;
+  height: 160px;
 `
 
-export const ProductCardFooter = styled.div`
+export const ProductCardFooter = styled.div<ProductCardProps>`
   width: 100%;
   padding: 1rem;
   display: flex;
-  justify-content: space-between;
+  justify-content: ${(props) =>
+    props.hasLikeButton ? 'space-between' : 'flex-end'};
   align-items: center;
 
   .price {
@@ -50,10 +54,18 @@ export const ProductCardFooter = styled.div`
   .discount {
     position: absolute;
     top: 0;
-    left: 0;
     transform: translateY(-100%);
     text-decoration: line-through;
     color: #fe6969;
     font-size: 12px;
+
+    ${(props) =>
+      props.hasLikeButton
+        ? css`
+            left: 0;
+          `
+        : css`
+            right: 0;
+          `}
   }
 `

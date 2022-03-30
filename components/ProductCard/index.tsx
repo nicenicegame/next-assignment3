@@ -14,9 +14,10 @@ import LikeButton from '../LikeButton'
 
 type ProductCardProps = {
   product: IProduct
+  showLikeButton?: boolean
 }
 
-const ProductCard = ({ product }: ProductCardProps) => {
+const ProductCard = ({ product, showLikeButton }: ProductCardProps) => {
   const availableColorVariants = useMemo(() => {
     return _.uniqBy(product.variants, 'color')
   }, [product])
@@ -42,6 +43,7 @@ const ProductCard = ({ product }: ProductCardProps) => {
 
   return (
     <StyledProductCard
+      hasLikeButton={!!showLikeButton}
       id={`product-card-${product.id}`}
       onClick={navigateToDetail}
     >
@@ -70,17 +72,19 @@ const ProductCard = ({ product }: ProductCardProps) => {
           )
         }
       />
-      <ProductCardFooter>
+      <ProductCardFooter hasLikeButton={!!showLikeButton}>
         <p className="price">
           {selectedColorVariant.discount !== 0 && (
-            <span className="discount">$ {selectedColorVariant.price}</span>
+            <span className="discount">
+              $ {selectedColorVariant.price.toFixed(2)}
+            </span>
           )}
           ${' '}
           {(selectedColorVariant.price - selectedColorVariant.discount).toFixed(
             2
           )}
         </p>
-        <LikeButton size="sm" />
+        {showLikeButton && <LikeButton size="sm" />}
       </ProductCardFooter>
     </StyledProductCard>
   )

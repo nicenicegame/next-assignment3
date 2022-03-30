@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { stat } from 'fs'
 import { RootState } from '../../app/store'
 import client from '../../client'
 import {
   ICategoryFilter,
-  IProduct,
   IProducts,
   IProductsCategory,
   IVariants
@@ -11,9 +11,13 @@ import {
 
 const initialState: IProductsCategory = {
   products: [],
-  variants: { colors: [], sizes: [], price: [] } as IVariants,
+  variants: { colors: [], sizes: [], price: [] },
   selectedColors: [],
-  selectedSizes: []
+  selectedSizes: [],
+  pageData: {
+    currentPage: 0,
+    totalPage: 0
+  }
 }
 
 export const fetchProductsByCategory = createAsyncThunk(
@@ -71,7 +75,12 @@ export const categorySlice = createSlice({
     builder.addCase(
       fetchProductsByCategory.fulfilled,
       (state, action: PayloadAction<IProducts>) => {
-        state.products = action.payload.items
+        const { items, count } = action.payload
+        state.products = items
+        state.pageData = {
+          currentPage: 1,
+          totalPage: Math.ceil(count / items.length)
+        }
       }
     ),
       builder.addCase(

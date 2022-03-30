@@ -38,4 +38,8 @@ export interface IProductsCategory {
   variants: IVariants
   selectedColors: string[]
   selectedSizes: string[]
+  pageData: {
+    currentPage: number
+    totalPage: number
+  }
 }

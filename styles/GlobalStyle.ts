@@ -20,6 +20,11 @@ export default createGlobalStyle`
         font-family: inherit;
     }
 
+    a {
+        text-decoration: none;
+        color: unset;
+    }
+
     .container {
         padding-left: 2rem;
         padding-right: 2rem;

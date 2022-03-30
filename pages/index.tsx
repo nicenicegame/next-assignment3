@@ -47,7 +47,7 @@ const Home: NextPage<HomeProps> = ({ products }) => {
       </div>
       <ProductContainer>
         {products.items.map((product) => (
-          <ProductCard product={product} key={product.id} />
+          <ProductCard showLikeButton product={product} key={product.id} />
         ))}
       </ProductContainer>
     </StyledHome>

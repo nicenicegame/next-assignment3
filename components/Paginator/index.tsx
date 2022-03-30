@@ -38,7 +38,7 @@ const Paginator = ({ currentPage, maxPage, onPageChange }: PaginatorProps) => {
             </option>
           ))}
         </select>
-        <span>of {20}</span>
+        <span>of {maxPage}</span>
       </PageSelector>
       <button
         disabled={currentPage >= maxPage}
