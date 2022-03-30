@@ -32,8 +32,8 @@ export const ProductsGrid = styled.div`
   margin-top: 2.25rem;
   margin-bottom: 1.5rem;
   display: grid;
+  grid-template-columns: repeat(auto-fill, 315px);
   justify-content: center;
-  grid-template-columns: repeat(auto-fit, 315px);
   gap: 30px;
 `
 
