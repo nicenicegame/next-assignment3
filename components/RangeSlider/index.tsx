@@ -39,8 +39,9 @@ const RangeSlider = ({ min, max, step, onRangeChange }: RangeSliderProps) => {
   }
 
   return (
-    <StyledRangeSlider>
+    <StyledRangeSlider id="filter-menu-price-container">
       <input
+        id="price-slider-min"
         type="range"
         min={min}
         max={max}
@@ -49,6 +50,7 @@ const RangeSlider = ({ min, max, step, onRangeChange }: RangeSliderProps) => {
         onChange={onFirstSliderValueChange}
       />
       <input
+        id="price-slider-max"
         type="range"
         min={min}
         max={max}

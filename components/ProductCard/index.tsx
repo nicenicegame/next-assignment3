@@ -61,6 +61,7 @@ const ProductCard = ({ product, showLikeButton }: ProductCardProps) => {
         />
       </ProductCardImage>
       <ColorSwatch
+        id="swatch-container"
         selectedStyle="circle"
         size="sm"
         colors={colors}

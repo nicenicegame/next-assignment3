@@ -115,11 +115,11 @@ const ProductsByCategory: NextPage = () => {
             </a>
           </Link>
         </Nav>
-        <OptionsButton onClick={() => setIsOptionsOpen(true)}>
+        <OptionsButton id="filter-btn" onClick={() => setIsOptionsOpen(true)}>
           Filter & Sort
         </OptionsButton>
       </BreadcrumbNav>
-      <ProductsGrid>
+      <ProductsGrid id={`product-list-page-${pageData.currentPage}`}>
         {products.length > 0 &&
           products.map((product) => (
             <ProductCard key={product.id} product={product} />
@@ -130,18 +130,23 @@ const ProductsByCategory: NextPage = () => {
         currentPage={pageData.currentPage}
         onPageChange={(page) => setCurrentPage(page)}
       />
-      <SideDrawer isOpen={isOptionsOpen} onCloseSideDrawer={onCloseSideDrawer}>
+      <SideDrawer
+        id="filter-menu"
+        isOpen={isOptionsOpen}
+        onCloseSideDrawer={onCloseSideDrawer}
+      >
         <Content>
           <CardHeader>
             <h4>Filter & Sort</h4>
             <CardActions>
               <button
+                id="filter-menu-clear-all"
                 disabled={!router.query.colors && !router.query.sizes}
                 onClick={onClearOptions}
               >
                 Clear All
               </button>
-              <span onClick={onCloseSideDrawer}>
+              <span id="filter-menu-close-btn" onClick={onCloseSideDrawer}>
                 <svg
                   onClick={onCloseSideDrawer}
                   width="18"
@@ -161,6 +166,7 @@ const ProductsByCategory: NextPage = () => {
           <p>Color</p>
           {variants.colors.length > 0 && (
             <ColorSwatch
+              id="filter-menu-color-swatch-container"
               colors={variants.colors}
               selectedColor={selectedColors}
               size="md"
@@ -171,6 +177,7 @@ const ProductsByCategory: NextPage = () => {
           <p>Size</p>
           {variants.sizes.length > 0 && (
             <SizePicker
+              id="filter-menu-size-container"
               selectedColor="black"
               sizes={variants.sizes}
               selectedSize={selectedSizes}

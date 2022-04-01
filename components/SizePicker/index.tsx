@@ -1,6 +1,7 @@
 import { StyledSizePicker, SizeButton } from './style'
 
 type SizePickerProps = {
+  id: string
   sizes: string[]
   selectedSize: string | undefined | string[]
   sizesStock?: number[]
@@ -9,6 +10,7 @@ type SizePickerProps = {
 }
 
 const SizePicker = ({
+  id,
   sizes,
   selectedSize,
   sizesStock,
@@ -16,7 +18,7 @@ const SizePicker = ({
   selectedColor
 }: SizePickerProps) => {
   return (
-    <StyledSizePicker id="size-container">
+    <StyledSizePicker id={id}>
       {sizes.map((size, sizeIndex) => (
         <SizeButton
           selectedColor={selectedColor}

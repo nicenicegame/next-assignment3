@@ -126,6 +126,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             <HorizontalLine margin="32px 0 24px" />
             <p className="muted-text">Color</p>
             <ColorSwatch
+              id="swatch-container"
               selectedStyle="circle"
               size="md"
               colors={colors}
@@ -134,6 +135,7 @@ const ProductDetail: NextPage<ProductDetailProps> = ({ product }) => {
             />
             <p className="muted-text product-size">Size</p>
             <SizePicker
+              id="size-container"
               selectedColor="blue"
               sizes={sizes}
               selectedSize={selectedSizeVariant?.size}

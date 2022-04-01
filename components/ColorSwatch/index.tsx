@@ -6,6 +6,7 @@ type ColorSwatchProps = {
   onColorChange: (color: string) => void
   size: 'sm' | 'md'
   selectedStyle: 'circle' | 'checked'
+  id: string
 }
 
 const options = {
@@ -14,6 +15,7 @@ const options = {
 }
 
 const ColorSwatch = ({
+  id,
   colors,
   selectedColor,
   onColorChange,
@@ -21,7 +23,7 @@ const ColorSwatch = ({
   selectedStyle
 }: ColorSwatchProps) => {
   return (
-    <StyledColorSwatch id="swatch-container">
+    <StyledColorSwatch id={id}>
       {colors.map((color, colorIndex) => (
         <ColorVariant
           selectedStyle={selectedStyle}
